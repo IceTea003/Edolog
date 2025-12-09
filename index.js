@@ -1,4 +1,3 @@
-// index.js
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -14,7 +13,6 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-// --- Helper: get start/end of month from "YYYY-MM" or current month ---
 function getMonthRange(yyyymm) {
   let start;
   if (yyyymm) {
@@ -29,7 +27,7 @@ function getMonthRange(yyyymm) {
   return { start, end };
 }
 
-// --- MongoDB connection ---
+//This is for MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
@@ -43,14 +41,11 @@ mongoose
 
 // --- ROUTES ---
 
-// Health check
 app.get("/", (req, res) => {
   res.send("Edolog backend running");
 });
 
-/* ========= SPENDS ========= */
-
-// Create a new spend
+// Create a new spend here
 app.post("/api/spends", async (req, res) => {
   try {
     const { name, sector, amount, note, date } = req.body;
@@ -71,7 +66,7 @@ app.post("/api/spends", async (req, res) => {
   }
 });
 
-// Summary of spends for a month
+// This should be the place to have summary of spends for a month
 app.get("/api/spends/summary", async (req, res) => {
   try {
     const { month } = req.query;
@@ -105,7 +100,6 @@ app.get("/api/spends/summary", async (req, res) => {
   }
 });
 
-// Spends in a sector for a month
 app.get("/api/sectors/:sector/spends", async (req, res) => {
   try {
     const { sector } = req.params;
@@ -148,9 +142,7 @@ app.delete("/api/spends/:id", async (req, res) => {
   }
 });
 
-/* ========= INCOMES ========= */
-
-// Create a new income
+// Create a new income with the same logic with the spend
 app.post("/api/incomes", async (req, res) => {
   try {
     const { name, sector, amount, note, date } = req.body;
@@ -171,7 +163,6 @@ app.post("/api/incomes", async (req, res) => {
   }
 });
 
-// Summary of incomes for a month
 app.get("/api/incomes/summary", async (req, res) => {
   try {
     const { month } = req.query;
@@ -205,7 +196,6 @@ app.get("/api/incomes/summary", async (req, res) => {
   }
 });
 
-// Incomes in a sector for a month
 app.get("/api/incomes/by-sector/:sector", async (req, res) => {
   try {
     const { sector } = req.params;
@@ -224,7 +214,6 @@ app.get("/api/incomes/by-sector/:sector", async (req, res) => {
   }
 });
 
-// Single income detail
 app.get("/api/incomes/:id", async (req, res) => {
   try {
     const income = await Income.findById(req.params.id);
@@ -236,7 +225,6 @@ app.get("/api/incomes/:id", async (req, res) => {
   }
 });
 
-// Delete income
 app.delete("/api/incomes/:id", async (req, res) => {
   try {
     const result = await Income.findByIdAndDelete(req.params.id);

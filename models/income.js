@@ -1,10 +1,9 @@
-// models/Income.js
 import mongoose from "mongoose";
 
 const IncomeSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    sector: { type: String, required: true }, // e.g. Salary, Bonus, Gift
+    sector: { type: String, required: true },
     amount: { type: Number, required: true },
     note: { type: String },
     date: { type: Date, default: Date.now }
