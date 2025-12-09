@@ -247,5 +247,3 @@ app.delete("/api/incomes/:id", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
